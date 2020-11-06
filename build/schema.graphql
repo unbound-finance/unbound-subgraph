@@ -1,0 +1,18 @@
+type User @entity {
+  id: ID! # user address
+  loaned: BigInt!
+  transactions: [Transaction!]!
+}
+
+type Transaction @entity {
+  id: ID!
+  amount: BigInt!
+  type: TransactionType!
+  blockTime: BigInt!
+  user: User!
+}
+
+enum TransactionType {
+  Mint
+  Burn
+}

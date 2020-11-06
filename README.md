@@ -44,7 +44,7 @@ $ yarn global add @graphprotocol/graph-cli
 
 - Target Contract
 
-  - Name, Address, ABI file name
+  - Name, Address, ABI file name, Network
   
   `/subgraph.yaml`
   

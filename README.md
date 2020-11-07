@@ -38,7 +38,7 @@ $ yarn global add @graphprotocol/graph-cli
 
  `/schema.graphql`
  
-- Mapping
+- Mapping (data <=> entity)
 
 `/src/mapping.ts`
 

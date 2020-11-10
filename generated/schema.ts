@@ -51,6 +51,24 @@ export class User extends Entity {
     this.set("loaned", Value.fromBigInt(value));
   }
 
+  get mint(): BigInt {
+    let value = this.get("mint");
+    return value.toBigInt();
+  }
+
+  set mint(value: BigInt) {
+    this.set("mint", Value.fromBigInt(value));
+  }
+
+  get burn(): BigInt {
+    let value = this.get("burn");
+    return value.toBigInt();
+  }
+
+  set burn(value: BigInt) {
+    this.set("burn", Value.fromBigInt(value));
+  }
+
   get transactions(): Array<string> {
     let value = this.get("transactions");
     return value.toStringArray();
@@ -125,5 +143,139 @@ export class Transaction extends Entity {
 
   set user(value: string) {
     this.set("user", Value.fromString(value));
+  }
+}
+
+export class Daily extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Daily entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Daily entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Daily", id.toString(), this);
+  }
+
+  static load(id: string): Daily | null {
+    return store.get("Daily", id) as Daily | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get mintCount(): BigInt {
+    let value = this.get("mintCount");
+    return value.toBigInt();
+  }
+
+  set mintCount(value: BigInt) {
+    this.set("mintCount", Value.fromBigInt(value));
+  }
+
+  get burnCount(): BigInt {
+    let value = this.get("burnCount");
+    return value.toBigInt();
+  }
+
+  set burnCount(value: BigInt) {
+    this.set("burnCount", Value.fromBigInt(value));
+  }
+
+  get mintTotal(): BigInt {
+    let value = this.get("mintTotal");
+    return value.toBigInt();
+  }
+
+  set mintTotal(value: BigInt) {
+    this.set("mintTotal", Value.fromBigInt(value));
+  }
+
+  get burnTotal(): BigInt {
+    let value = this.get("burnTotal");
+    return value.toBigInt();
+  }
+
+  set burnTotal(value: BigInt) {
+    this.set("burnTotal", Value.fromBigInt(value));
+  }
+}
+
+export class All extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save All entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save All entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("All", id.toString(), this);
+  }
+
+  static load(id: string): All | null {
+    return store.get("All", id) as All | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get mintCount(): BigInt {
+    let value = this.get("mintCount");
+    return value.toBigInt();
+  }
+
+  set mintCount(value: BigInt) {
+    this.set("mintCount", Value.fromBigInt(value));
+  }
+
+  get burnCount(): BigInt {
+    let value = this.get("burnCount");
+    return value.toBigInt();
+  }
+
+  set burnCount(value: BigInt) {
+    this.set("burnCount", Value.fromBigInt(value));
+  }
+
+  get mintTotal(): BigInt {
+    let value = this.get("mintTotal");
+    return value.toBigInt();
+  }
+
+  set mintTotal(value: BigInt) {
+    this.set("mintTotal", Value.fromBigInt(value));
+  }
+
+  get burnTotal(): BigInt {
+    let value = this.get("burnTotal");
+    return value.toBigInt();
+  }
+
+  set burnTotal(value: BigInt) {
+    this.set("burnTotal", Value.fromBigInt(value));
   }
 }

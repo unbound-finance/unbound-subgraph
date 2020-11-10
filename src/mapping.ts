@@ -1,6 +1,6 @@
 import { BigInt, log } from '@graphprotocol/graph-ts';
 import { Contract, Approval, Burn, Mint, Transfer } from '../generated/Contract/Contract';
-import { User, Transaction } from '../generated/schema';
+import { User, Transaction, Daily, All } from '../generated/schema';
 
 export function handleBurn(event: Burn): void {
   let address: string = event.params.user.toHex();
@@ -8,28 +8,66 @@ export function handleBurn(event: Burn): void {
   let hash: string = event.transaction.hash.toHex();
   let blockTime: BigInt = event.block.timestamp;
 
-  let user = User.load(address);
-  if (user == null) {
-    user = new User(address);
-    user.loaned = BigInt.fromI32(0);
-    user.transactions = [];
-  }
+  // In the AssemblyScript, Date class can't handle year, month, date, etc..
+  // https://www.assemblyscript.org/stdlib/date.html#constructor
+  let difference = BigInt.fromI32(330 * 60); // IST(+5:30)
+  let ist = blockTime.plus(difference);
+  let date = ist.div(BigInt.fromI32(24 * 60 * 60)).toString();
+
   let transaction = Transaction.load(hash);
   if (transaction == null) {
     transaction = new Transaction(hash);
   }
+  let user = User.load(address);
+  if (user == null) {
+    user = new User(address);
+    user.loaned = BigInt.fromI32(0);
+    user.burn = BigInt.fromI32(0);
+    user.mint = BigInt.fromI32(0);
+    user.transactions = [];
+  }
+  let daily = Daily.load(date);
+  if (daily == null) {
+    daily = new Daily(date);
+    daily.mintCount = BigInt.fromI32(0);
+    daily.burnCount = BigInt.fromI32(0);
+    daily.mintTotal = BigInt.fromI32(0);
+    daily.burnTotal = BigInt.fromI32(0);
+  }
+  let all = All.load('key');
+  if (all == null) {
+    all = new All('key');
+    all.mintCount = BigInt.fromI32(0);
+    all.burnCount = BigInt.fromI32(0);
+    all.mintTotal = BigInt.fromI32(0);
+    all.burnTotal = BigInt.fromI32(0);
+  }
 
+  // User
   user.loaned = user.loaned.minus(burn);
+  user.burn = user.burn.plus(burn);
   let transactionArray = user.transactions;
   transactionArray.push(transaction.id);
   user.transactions = transactionArray;
+
+  // Transaction
   transaction.amount = burn;
   transaction.type = 'Burn';
   transaction.blockTime = blockTime;
   transaction.user = user.id;
 
-  transaction.save();
+  // Daily
+  daily.burnCount = daily.burnCount.plus(BigInt.fromI32(1));
+  daily.burnTotal = daily.burnTotal.plus(burn);
+
+  // ALL
+  all.burnCount = all.burnCount.plus(BigInt.fromI32(1));
+  all.burnTotal = all.burnTotal.plus(burn);
+
   user.save();
+  transaction.save();
+  daily.save();
+  all.save();
 }
 
 export function handleMint(event: Mint): void {
@@ -38,35 +76,104 @@ export function handleMint(event: Mint): void {
   let hash: string = event.transaction.hash.toHex();
   let blockTime: BigInt = event.block.timestamp;
 
-  let user = User.load(address);
-  if (user == null) {
-    user = new User(address);
-    user.loaned = BigInt.fromI32(0);
-    user.transactions = [];
-  }
+  // In the AssemblyScript, Date class can't handle year, month, date, etc..
+  // https://www.assemblyscript.org/stdlib/date.html#constructor
+  let difference = BigInt.fromI32(330 * 60); // IST(+5:30)
+  let ist = blockTime.plus(difference);
+  let date = ist.div(BigInt.fromI32(24 * 60 * 60)).toString();
+
   let transaction = Transaction.load(hash);
   if (transaction == null) {
     transaction = new Transaction(hash);
   }
+  let user = User.load(address);
+  if (user == null) {
+    user = new User(address);
+    user.loaned = BigInt.fromI32(0);
+    user.burn = BigInt.fromI32(0);
+    user.mint = BigInt.fromI32(0);
+    user.transactions = [];
+  }
+  let daily = Daily.load(date);
+  if (daily == null) {
+    daily = new Daily(date);
+    daily.mintCount = BigInt.fromI32(0);
+    daily.burnCount = BigInt.fromI32(0);
+    daily.mintTotal = BigInt.fromI32(0);
+    daily.burnTotal = BigInt.fromI32(0);
+  }
+  let all = All.load('key');
+  if (all == null) {
+    all = new All('key');
+    all.mintCount = BigInt.fromI32(0);
+    all.burnCount = BigInt.fromI32(0);
+    all.mintTotal = BigInt.fromI32(0);
+    all.burnTotal = BigInt.fromI32(0);
+  }
 
+  // User
   user.loaned = user.loaned.plus(mint);
+  user.mint = user.mint.plus(mint);
   let transactionArray = user.transactions;
   transactionArray.push(transaction.id);
   user.transactions = transactionArray;
+
+  // Transaction
   transaction.amount = mint;
   transaction.type = 'Mint';
   transaction.blockTime = blockTime;
   transaction.user = user.id;
 
-  log.debug('Transaction: {}', [transaction.id]);
-  log.debug('User: {}', [user.transactions.toString()]);
-  transaction.save();
+  // Daily
+  daily.mintCount = daily.mintCount.plus(BigInt.fromI32(1));
+  daily.mintTotal = daily.mintTotal.plus(mint);
+
+  // All
+  all.mintCount = all.mintCount.plus(BigInt.fromI32(1));
+  all.mintTotal = all.mintTotal.plus(mint);
+
   user.save();
+  transaction.save();
+  daily.save();
+  all.save();
 }
 
 export function handleApproval(event: Approval): void {}
 
 export function handleTransfer(event: Transfer): void {}
+
+// function initUser(id: string): User {
+//   let user = User.load(id);
+//   if (user == null) {
+//     user = new User(id);
+//     user.loaned = BigInt.fromI32(0);
+//     user.transactions = [];
+//   }
+//   return user;
+// }
+
+// function initDaily(id: string): Daily {
+//   let daily = Daily.load(id);
+//   if (daily == null) {
+//     daily = new Daily(id);
+//     daily.mintCount = BigInt.fromI32(0);
+//     daily.burnCount = BigInt.fromI32(0);
+//     daily.mintTotal = BigInt.fromI32(0);
+//     daily.burnTotal = BigInt.fromI32(0);
+//   }
+//   return daily;
+// }
+
+// function getDateIST(unix: BigInt): string {
+//   let difference = BigInt.fromI32(330 * 60);
+//   let istTime = unix.plus(difference);
+//   let datetime = new Date(istTime.toString() + '000');
+//   let year = datetime.getFullYear();
+//   let month = ('0' + datetime.getMonth()).substr(-2);
+//   let day = ('0' + datetime.getDate()).substr(-2);
+
+//   return year + month + day;
+// }
 
 // Note: If a handler doesn't require existing field values, it is faster
 // _not_ to load the entity from the store. Instead, create it fresh with

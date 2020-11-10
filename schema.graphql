@@ -1,7 +1,14 @@
 type User @entity {
   id: ID! # user address
   loaned: BigInt!
+  mint: BigInt!
+  burn: BigInt!
   transactions: [Transaction!]!
+}
+
+enum TransactionType {
+  Mint
+  Burn
 }
 
 type Transaction @entity {
@@ -12,7 +19,19 @@ type Transaction @entity {
   user: User!
 }
 
-enum TransactionType {
-  Mint
-  Burn
+type Daily @entity {
+  "(block time + 5:30) / (24 * 60 * 60)"
+  id: ID!
+  mintCount: BigInt!
+  burnCount: BigInt!
+  mintTotal: BigInt!
+  burnTotal: BigInt!
+}
+
+type All @entity {
+  id: ID!
+  mintCount: BigInt!
+  burnCount: BigInt!
+  mintTotal: BigInt!
+  burnTotal: BigInt!
 }

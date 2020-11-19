@@ -106,9 +106,9 @@ export class Transfer__Params {
   }
 }
 
-export class Contract extends ethereum.SmartContract {
-  static bind(address: Address): Contract {
-    return new Contract("Contract", address);
+export class UnboundDollar extends ethereum.SmartContract {
+  static bind(address: Address): UnboundDollar {
+    return new UnboundDollar("UnboundDollar", address);
   }
 
   DOMAIN_SEPARATOR(): Bytes {

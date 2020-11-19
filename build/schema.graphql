@@ -1,9 +1,14 @@
 type User @entity {
-  id: ID! # user address
-  loaned: BigInt!
-  mint: BigInt!
-  burn: BigInt!
+  "User Address"
+  id: ID!
+  loans: [Loan!]!
   transactions: [Transaction!]!
+}
+
+type Loan @entity {
+  "Unbound Token Address"
+  id: ID!
+  loaned: BigDecimal!
 }
 
 enum TransactionType {
@@ -13,25 +18,78 @@ enum TransactionType {
 
 type Transaction @entity {
   id: ID!
-  amount: BigInt!
+  uTokenAmount: BigDecimal!
   type: TransactionType!
   blockTime: BigInt!
+  uTokenAddress: String!
   user: User!
 }
 
-type Daily @entity {
-  "(block time + 5:30) / (24 * 60 * 60)"
+# type Mint @entity {
+#   id: ID!
+#   amount: BigDecimal!
+#   blockTime: BigInt!
+#   uTokenAddress: String!
+#   user: User!
+# }
+
+# type Burn @entity {
+#   id: ID!
+#   amount: BigDecimal!
+#   blockTime: BigInt!
+#   uTokenAddress: String!
+#   user: User!
+# }
+
+# type LockLPT @entity {
+#   id: ID!
+#   poolTokeAmount: BigInt!
+#   uTokenAddress: String!
+#   user: User!
+# }
+
+# type UnlockLPT @entity {
+#   id: ID!
+#   poolTokeAmount: BigInt!
+#   uTokenAddress: String!
+#   user: User!
+# }
+
+type DailyToken @entity {
   id: ID!
+  date: Int!
+  uTokenAddress: String!
   mintCount: BigInt!
   burnCount: BigInt!
-  mintTotal: BigInt!
-  burnTotal: BigInt!
+  mintUnboundToken: BigDecimal!
+  burnUnboundToken: BigDecimal!
+  lockPoolToken: BigDecimal!
+  unlockPoolToken: BigDecimal!
+  lockUSD: BigDecimal!
+  unlockUSD: BigDecimal!
+}
+
+type Daily @entity {
+  id: ID!
+  date: Int!
+  mintCount: BigInt!
+  burnCount: BigInt!
+  mintUnboundToken: BigDecimal!
+  burnUnboundToken: BigDecimal!
+  lockPoolToken: BigDecimal!
+  unlockPoolToken: BigDecimal!
+  lockUSD: BigDecimal!
+  unlockUSD: BigDecimal!
 }
 
 type All @entity {
   id: ID!
   mintCount: BigInt!
   burnCount: BigInt!
-  mintTotal: BigInt!
-  burnTotal: BigInt!
+  mintUnboundToken: BigDecimal!
+  burnUnboundToken: BigDecimal!
+  lockPoolToken: BigDecimal!
+  unlockPoolToken: BigDecimal!
+  lockUSD: BigDecimal!
+  unlockUSD: BigDecimal!
 }

@@ -42,31 +42,13 @@ export class User extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get loaned(): BigInt {
-    let value = this.get("loaned");
-    return value.toBigInt();
+  get loans(): Array<string> {
+    let value = this.get("loans");
+    return value.toStringArray();
   }
 
-  set loaned(value: BigInt) {
-    this.set("loaned", Value.fromBigInt(value));
-  }
-
-  get mint(): BigInt {
-    let value = this.get("mint");
-    return value.toBigInt();
-  }
-
-  set mint(value: BigInt) {
-    this.set("mint", Value.fromBigInt(value));
-  }
-
-  get burn(): BigInt {
-    let value = this.get("burn");
-    return value.toBigInt();
-  }
-
-  set burn(value: BigInt) {
-    this.set("burn", Value.fromBigInt(value));
+  set loans(value: Array<string>) {
+    this.set("loans", Value.fromStringArray(value));
   }
 
   get transactions(): Array<string> {
@@ -76,6 +58,46 @@ export class User extends Entity {
 
   set transactions(value: Array<string>) {
     this.set("transactions", Value.fromStringArray(value));
+  }
+}
+
+export class Loan extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Loan entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Loan entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Loan", id.toString(), this);
+  }
+
+  static load(id: string): Loan | null {
+    return store.get("Loan", id) as Loan | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get loaned(): BigDecimal {
+    let value = this.get("loaned");
+    return value.toBigDecimal();
+  }
+
+  set loaned(value: BigDecimal) {
+    this.set("loaned", Value.fromBigDecimal(value));
   }
 }
 
@@ -109,13 +131,13 @@ export class Transaction extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get amount(): BigInt {
-    let value = this.get("amount");
-    return value.toBigInt();
+  get uTokenAmount(): BigDecimal {
+    let value = this.get("uTokenAmount");
+    return value.toBigDecimal();
   }
 
-  set amount(value: BigInt) {
-    this.set("amount", Value.fromBigInt(value));
+  set uTokenAmount(value: BigDecimal) {
+    this.set("uTokenAmount", Value.fromBigDecimal(value));
   }
 
   get type(): string {
@@ -136,6 +158,15 @@ export class Transaction extends Entity {
     this.set("blockTime", Value.fromBigInt(value));
   }
 
+  get uTokenAddress(): string {
+    let value = this.get("uTokenAddress");
+    return value.toString();
+  }
+
+  set uTokenAddress(value: string) {
+    this.set("uTokenAddress", Value.fromString(value));
+  }
+
   get user(): string {
     let value = this.get("user");
     return value.toString();
@@ -143,6 +174,127 @@ export class Transaction extends Entity {
 
   set user(value: string) {
     this.set("user", Value.fromString(value));
+  }
+}
+
+export class DailyToken extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save DailyToken entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save DailyToken entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("DailyToken", id.toString(), this);
+  }
+
+  static load(id: string): DailyToken | null {
+    return store.get("DailyToken", id) as DailyToken | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get date(): i32 {
+    let value = this.get("date");
+    return value.toI32();
+  }
+
+  set date(value: i32) {
+    this.set("date", Value.fromI32(value));
+  }
+
+  get uTokenAddress(): string {
+    let value = this.get("uTokenAddress");
+    return value.toString();
+  }
+
+  set uTokenAddress(value: string) {
+    this.set("uTokenAddress", Value.fromString(value));
+  }
+
+  get mintCount(): BigInt {
+    let value = this.get("mintCount");
+    return value.toBigInt();
+  }
+
+  set mintCount(value: BigInt) {
+    this.set("mintCount", Value.fromBigInt(value));
+  }
+
+  get burnCount(): BigInt {
+    let value = this.get("burnCount");
+    return value.toBigInt();
+  }
+
+  set burnCount(value: BigInt) {
+    this.set("burnCount", Value.fromBigInt(value));
+  }
+
+  get mintUnboundToken(): BigDecimal {
+    let value = this.get("mintUnboundToken");
+    return value.toBigDecimal();
+  }
+
+  set mintUnboundToken(value: BigDecimal) {
+    this.set("mintUnboundToken", Value.fromBigDecimal(value));
+  }
+
+  get burnUnboundToken(): BigDecimal {
+    let value = this.get("burnUnboundToken");
+    return value.toBigDecimal();
+  }
+
+  set burnUnboundToken(value: BigDecimal) {
+    this.set("burnUnboundToken", Value.fromBigDecimal(value));
+  }
+
+  get lockPoolToken(): BigDecimal {
+    let value = this.get("lockPoolToken");
+    return value.toBigDecimal();
+  }
+
+  set lockPoolToken(value: BigDecimal) {
+    this.set("lockPoolToken", Value.fromBigDecimal(value));
+  }
+
+  get unlockPoolToken(): BigDecimal {
+    let value = this.get("unlockPoolToken");
+    return value.toBigDecimal();
+  }
+
+  set unlockPoolToken(value: BigDecimal) {
+    this.set("unlockPoolToken", Value.fromBigDecimal(value));
+  }
+
+  get lockUSD(): BigDecimal {
+    let value = this.get("lockUSD");
+    return value.toBigDecimal();
+  }
+
+  set lockUSD(value: BigDecimal) {
+    this.set("lockUSD", Value.fromBigDecimal(value));
+  }
+
+  get unlockUSD(): BigDecimal {
+    let value = this.get("unlockUSD");
+    return value.toBigDecimal();
+  }
+
+  set unlockUSD(value: BigDecimal) {
+    this.set("unlockUSD", Value.fromBigDecimal(value));
   }
 }
 
@@ -176,6 +328,15 @@ export class Daily extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get date(): i32 {
+    let value = this.get("date");
+    return value.toI32();
+  }
+
+  set date(value: i32) {
+    this.set("date", Value.fromI32(value));
+  }
+
   get mintCount(): BigInt {
     let value = this.get("mintCount");
     return value.toBigInt();
@@ -194,22 +355,58 @@ export class Daily extends Entity {
     this.set("burnCount", Value.fromBigInt(value));
   }
 
-  get mintTotal(): BigInt {
-    let value = this.get("mintTotal");
-    return value.toBigInt();
+  get mintUnboundToken(): BigDecimal {
+    let value = this.get("mintUnboundToken");
+    return value.toBigDecimal();
   }
 
-  set mintTotal(value: BigInt) {
-    this.set("mintTotal", Value.fromBigInt(value));
+  set mintUnboundToken(value: BigDecimal) {
+    this.set("mintUnboundToken", Value.fromBigDecimal(value));
   }
 
-  get burnTotal(): BigInt {
-    let value = this.get("burnTotal");
-    return value.toBigInt();
+  get burnUnboundToken(): BigDecimal {
+    let value = this.get("burnUnboundToken");
+    return value.toBigDecimal();
   }
 
-  set burnTotal(value: BigInt) {
-    this.set("burnTotal", Value.fromBigInt(value));
+  set burnUnboundToken(value: BigDecimal) {
+    this.set("burnUnboundToken", Value.fromBigDecimal(value));
+  }
+
+  get lockPoolToken(): BigDecimal {
+    let value = this.get("lockPoolToken");
+    return value.toBigDecimal();
+  }
+
+  set lockPoolToken(value: BigDecimal) {
+    this.set("lockPoolToken", Value.fromBigDecimal(value));
+  }
+
+  get unlockPoolToken(): BigDecimal {
+    let value = this.get("unlockPoolToken");
+    return value.toBigDecimal();
+  }
+
+  set unlockPoolToken(value: BigDecimal) {
+    this.set("unlockPoolToken", Value.fromBigDecimal(value));
+  }
+
+  get lockUSD(): BigDecimal {
+    let value = this.get("lockUSD");
+    return value.toBigDecimal();
+  }
+
+  set lockUSD(value: BigDecimal) {
+    this.set("lockUSD", Value.fromBigDecimal(value));
+  }
+
+  get unlockUSD(): BigDecimal {
+    let value = this.get("unlockUSD");
+    return value.toBigDecimal();
+  }
+
+  set unlockUSD(value: BigDecimal) {
+    this.set("unlockUSD", Value.fromBigDecimal(value));
   }
 }
 
@@ -261,21 +458,57 @@ export class All extends Entity {
     this.set("burnCount", Value.fromBigInt(value));
   }
 
-  get mintTotal(): BigInt {
-    let value = this.get("mintTotal");
-    return value.toBigInt();
+  get mintUnboundToken(): BigDecimal {
+    let value = this.get("mintUnboundToken");
+    return value.toBigDecimal();
   }
 
-  set mintTotal(value: BigInt) {
-    this.set("mintTotal", Value.fromBigInt(value));
+  set mintUnboundToken(value: BigDecimal) {
+    this.set("mintUnboundToken", Value.fromBigDecimal(value));
   }
 
-  get burnTotal(): BigInt {
-    let value = this.get("burnTotal");
-    return value.toBigInt();
+  get burnUnboundToken(): BigDecimal {
+    let value = this.get("burnUnboundToken");
+    return value.toBigDecimal();
   }
 
-  set burnTotal(value: BigInt) {
-    this.set("burnTotal", Value.fromBigInt(value));
+  set burnUnboundToken(value: BigDecimal) {
+    this.set("burnUnboundToken", Value.fromBigDecimal(value));
+  }
+
+  get lockPoolToken(): BigDecimal {
+    let value = this.get("lockPoolToken");
+    return value.toBigDecimal();
+  }
+
+  set lockPoolToken(value: BigDecimal) {
+    this.set("lockPoolToken", Value.fromBigDecimal(value));
+  }
+
+  get unlockPoolToken(): BigDecimal {
+    let value = this.get("unlockPoolToken");
+    return value.toBigDecimal();
+  }
+
+  set unlockPoolToken(value: BigDecimal) {
+    this.set("unlockPoolToken", Value.fromBigDecimal(value));
+  }
+
+  get lockUSD(): BigDecimal {
+    let value = this.get("lockUSD");
+    return value.toBigDecimal();
+  }
+
+  set lockUSD(value: BigDecimal) {
+    this.set("lockUSD", Value.fromBigDecimal(value));
+  }
+
+  get unlockUSD(): BigDecimal {
+    let value = this.get("unlockUSD");
+    return value.toBigDecimal();
+  }
+
+  set unlockUSD(value: BigDecimal) {
+    this.set("unlockUSD", Value.fromBigDecimal(value));
   }
 }

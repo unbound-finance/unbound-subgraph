@@ -1,18 +1,95 @@
 type User @entity {
-  id: ID! # user address
-  loaned: BigInt!
+  "User Address"
+  id: ID!
+  loans: [Loan!]!
   transactions: [Transaction!]!
 }
 
-type Transaction @entity {
+type Loan @entity {
+  "Unbound Token Address"
   id: ID!
-  amount: BigInt!
-  type: TransactionType!
-  blockTime: BigInt!
-  user: User!
+  loaned: BigDecimal!
 }
 
 enum TransactionType {
   Mint
   Burn
+}
+
+type Transaction @entity {
+  id: ID!
+  uTokenAmount: BigDecimal!
+  type: TransactionType!
+  blockTime: BigInt!
+  uTokenAddress: String!
+  user: User!
+}
+
+# type Mint @entity {
+#   id: ID!
+#   amount: BigDecimal!
+#   blockTime: BigInt!
+#   uTokenAddress: String!
+#   user: User!
+# }
+
+# type Burn @entity {
+#   id: ID!
+#   amount: BigDecimal!
+#   blockTime: BigInt!
+#   uTokenAddress: String!
+#   user: User!
+# }
+
+# type LockLPT @entity {
+#   id: ID!
+#   poolTokeAmount: BigInt!
+#   uTokenAddress: String!
+#   user: User!
+# }
+
+# type UnlockLPT @entity {
+#   id: ID!
+#   poolTokeAmount: BigInt!
+#   uTokenAddress: String!
+#   user: User!
+# }
+
+type DailyToken @entity {
+  id: ID!
+  date: Int!
+  uTokenAddress: String!
+  mintCount: BigInt!
+  burnCount: BigInt!
+  mintUnboundToken: BigDecimal!
+  burnUnboundToken: BigDecimal!
+  lockPoolToken: BigDecimal!
+  unlockPoolToken: BigDecimal!
+  lockUSD: BigDecimal!
+  unlockUSD: BigDecimal!
+}
+
+type Daily @entity {
+  id: ID!
+  date: Int!
+  mintCount: BigInt!
+  burnCount: BigInt!
+  mintUnboundToken: BigDecimal!
+  burnUnboundToken: BigDecimal!
+  lockPoolToken: BigDecimal!
+  unlockPoolToken: BigDecimal!
+  lockUSD: BigDecimal!
+  unlockUSD: BigDecimal!
+}
+
+type All @entity {
+  id: ID!
+  mintCount: BigInt!
+  burnCount: BigInt!
+  mintUnboundToken: BigDecimal!
+  burnUnboundToken: BigDecimal!
+  lockPoolToken: BigDecimal!
+  unlockPoolToken: BigDecimal!
+  lockUSD: BigDecimal!
+  unlockUSD: BigDecimal!
 }

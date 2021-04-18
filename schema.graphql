@@ -55,7 +55,7 @@ type Transaction @entity {
 #   user: User!
 # }
 
-type DailyToken @entity {
+type DailyLLC @entity {
   id: ID!
   date: Int!
   uTokenAddress: String!
@@ -65,8 +65,8 @@ type DailyToken @entity {
   burnUnboundToken: BigDecimal!
   lockPoolToken: BigDecimal!
   unlockPoolToken: BigDecimal!
-  lockUSD: BigDecimal!
-  unlockUSD: BigDecimal!
+  # lockUSD: BigDecimal!
+  # unlockUSD: BigDecimal!
 }
 
 type Daily @entity {
@@ -78,8 +78,6 @@ type Daily @entity {
   burnUnboundToken: BigDecimal!
   lockPoolToken: BigDecimal!
   unlockPoolToken: BigDecimal!
-  lockUSD: BigDecimal!
-  unlockUSD: BigDecimal!
 }
 
 type All @entity {
@@ -90,6 +88,4 @@ type All @entity {
   burnUnboundToken: BigDecimal!
   lockPoolToken: BigDecimal!
   unlockPoolToken: BigDecimal!
-  lockUSD: BigDecimal!
-  unlockUSD: BigDecimal!
 }

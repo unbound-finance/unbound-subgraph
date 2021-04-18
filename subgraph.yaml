@@ -6,9 +6,9 @@ dataSources:
     name: UnboundDollar
     network: kovan
     source:
-      address: '0xa729D5cA5BcE0d275B69728881f5bB86511EA70B'
+      address: '0x17297e6f90D625646D3f5B207B74cEFD66a40732'
       abi: UnboundDollar
-      startBlock: 21863010
+      startBlock: 24201827
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -17,8 +17,6 @@ dataSources:
         - User
         - Loan
         - Transfer
-        # - Mint
-        # - Burn
         - DailyToken
         - Daily
         - All
@@ -36,67 +34,199 @@ dataSources:
           handler: handleTransfer
       file: ./src/und.ts
   - kind: ethereum/contract
-    name: LLC
-    network: kovan
-    source:
-      address: '0x7A95c0193f2D77A2DD5b01A1069CE3Eb59E77017'
-      abi: LLC
-      startBlock: 21863181
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.4
-      language: wasm/assemblyscript
-      entities:
-        # - LockLPT
-        # - UnlockLPT
-        - DailyToken
-        - Daily
-        - All
-      abis:
-        - name: LLC
-          file: ./abis/LLC.json
-        - name: Pair
-          file: ./abis/pair.json
-        - name: ERC20
-          file: ./abis/ERC20.json
-      eventHandlers:
-        - event: KillSwitch(bool)
-          handler: handleKillSwitch
-        - event: LockLPT(uint256,indexed address,indexed address)
-          handler: handleLockLPT
-        - event: UnlockLPT(uint256,indexed address,indexed address)
-          handler: handleUnlockLPT
-      file: ./src/llc.ts
-  - kind: ethereum/contract
     name: LLC_DaiUsdt
     network: kovan
     source:
-      address: '0x19571F3fb4E732950d1d6c7048dF55F00cf4439F'
+      address: '0x6865c415Bf29B360c2De5343D0f19E4bD773aB25'
       abi: LLC
-      startBlock: 21863156
+      startBlock: 24211160
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        # - LockLPT
-        # - UnlockLPT
         - DailyToken
         - Daily
         - All
       abis:
         - name: LLC
-          file: ./abis/LLC.json
+          file: ./abis/LiquidityLockContract.json
         - name: Pair
           file: ./abis/pair.json
         - name: ERC20
           file: ./abis/ERC20.json
       eventHandlers:
-        - event: KillSwitch(bool)
-          handler: handleKillSwitch
-        - event: LockLPT(uint256,indexed address,indexed address)
+        - event: LockLPT(uint256,indexed address)
           handler: handleLockLPT
-        - event: UnlockLPT(uint256,indexed address,indexed address)
+        - event: UnlockLPT(uint256,indexed address)
+          handler: handleUnlockLPT
+      file: ./src/llc.ts
+  - kind: ethereum/contract
+    name: LLC_DaiUsdc
+    network: kovan
+    source:
+      address: '0x59BF72062E2A23e85DaA910c9d952223Eff810A9'
+      abi: LLC
+      startBlock: 24211148
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - DailyToken
+        - Daily
+        - All
+      abis:
+        - name: LLC
+          file: ./abis/LiquidityLockContract.json
+        - name: Pair
+          file: ./abis/pair.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+      eventHandlers:
+        - event: LockLPT(uint256,indexed address)
+          handler: handleLockLPT
+        - event: UnlockLPT(uint256,indexed address)
+          handler: handleUnlockLPT
+      file: ./src/llc.ts
+  - kind: ethereum/contract
+    name: LLC_UsdcUsdt
+    network: kovan
+    source:
+      address: '0x3c62F53311CeBfee0e9a08C13907f32BE09604c2'
+      abi: LLC
+      startBlock: 24211169
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - DailyToken
+        - Daily
+        - All
+      abis:
+        - name: LLC
+          file: ./abis/LiquidityLockContract.json
+        - name: Pair
+          file: ./abis/pair.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+      eventHandlers:
+        - event: LockLPT(uint256,indexed address)
+          handler: handleLockLPT
+        - event: UnlockLPT(uint256,indexed address)
+          handler: handleUnlockLPT
+      file: ./src/llc.ts
+  - kind: ethereum/contract
+    name: LLC_EthDai
+    network: kovan
+    source:
+      address: '0xF6ec8abF0A62bE8c7cA60ACF5bBE41E7956Fb93c'
+      abi: LLC
+      startBlock: 24211117
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - DailyToken
+        - Daily
+        - All
+      abis:
+        - name: LLC
+          file: ./abis/LiquidityLockContract.json
+        - name: Pair
+          file: ./abis/pair.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+      eventHandlers:
+        - event: LockLPT(uint256,indexed address)
+          handler: handleLockLPT
+        - event: UnlockLPT(uint256,indexed address)
+          handler: handleUnlockLPT
+      file: ./src/llc.ts
+  - kind: ethereum/contract
+    name: LLC_EthUsdt
+    network: kovan
+    source:
+      address: '0xa613DC9eBCf5B96E797e9e0D2E7e940b0DA44967'
+      abi: LLC
+      startBlock: 24211020
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - DailyToken
+        - Daily
+        - All
+      abis:
+        - name: LLC
+          file: ./abis/LiquidityLockContract.json
+        - name: Pair
+          file: ./abis/pair.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+      eventHandlers:
+        - event: LockLPT(uint256,indexed address)
+          handler: handleLockLPT
+        - event: UnlockLPT(uint256,indexed address)
+          handler: handleUnlockLPT
+      file: ./src/llc.ts
+  - kind: ethereum/contract
+    name: LLC_EthUsdc
+    network: kovan
+    source:
+      address: '0x0fC85f81D826F35E68c05C9dcd97Cd55B5789F11'
+      abi: LLC
+      startBlock: 24211138
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - DailyToken
+        - Daily
+        - All
+      abis:
+        - name: LLC
+          file: ./abis/LiquidityLockContract.json
+        - name: Pair
+          file: ./abis/pair.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+      eventHandlers:
+        - event: LockLPT(uint256,indexed address)
+          handler: handleLockLPT
+        - event: UnlockLPT(uint256,indexed address)
+          handler: handleUnlockLPT
+      file: ./src/llc.ts
+  - kind: ethereum/contract
+    name: LLC_EnjUsdt
+    network: kovan
+    source:
+      address: '0x365E53365E0Fa448b6feE5Aa00157394C57A5DDd'
+      abi: LLC
+      startBlock: 24211180
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - DailyToken
+        - Daily
+        - All
+      abis:
+        - name: LLC
+          file: ./abis/LiquidityLockContract.json
+        - name: Pair
+          file: ./abis/pair.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+      eventHandlers:
+        - event: LockLPT(uint256,indexed address)
+          handler: handleLockLPT
+        - event: UnlockLPT(uint256,indexed address)
           handler: handleUnlockLPT
       file: ./src/llc.ts
 # templates:

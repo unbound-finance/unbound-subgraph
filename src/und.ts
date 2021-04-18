@@ -1,18 +1,18 @@
 import { BigDecimal, BigInt, log } from '@graphprotocol/graph-ts';
 import { UnboundDollar, Approval, Burn, Mint, Transfer } from '../generated/UnboundDollar/UnboundDollar';
-import { getDaily, getAll, getTransaction, getUser, getLoan, getDailyToken } from './entities';
+import { getDaily, getAll, getTransaction, getUser, getLoan, getDailyLLC } from './entities';
 import { convertTokenToDecimal } from './helpers';
 
 export function handleBurn(event: Burn): void {
   let address: string = event.params.user.toHex();
   let burn: BigInt = event.params.burned;
   let uToken = UnboundDollar.bind(event.address);
-  let burnToken: BigDecimal = convertTokenToDecimal(burn, BigInt.fromI32(uToken.decimals()));
+  let burnToken: BigDecimal = convertTokenToDecimal(burn, uToken.decimals());
 
   let transaction = getTransaction(event);
   let loan = getLoan(event, address);
   let user = getUser(event, address);
-  let dailyToken = getDailyToken(event, event.address.toHex());
+  let dailyToken = getDailyLLC(event, event.address.toHex());
   let daily = getDaily(event);
   let all = getAll(event);
 
@@ -58,11 +58,11 @@ export function handleMint(event: Mint): void {
   let mint: BigInt = event.params.newMint;
   let hash: string = event.transaction.hash.toHex();
   let uToken = UnboundDollar.bind(event.address);
-  let mintToken: BigDecimal = convertTokenToDecimal(mint, BigInt.fromI32(uToken.decimals()));
+  let mintToken: BigDecimal = convertTokenToDecimal(mint, uToken.decimals());
   let transaction = getTransaction(event);
   let loan = getLoan(event, address);
   let user = getUser(event, address);
-  let dailyToken = getDailyToken(event, event.address.toHex());
+  let dailyToken = getDailyLLC(event, event.address.toHex());
   let daily = getDaily(event);
   let all = getAll(event);
 

@@ -1,4 +1,4 @@
-import { User, Transaction, Daily, All, Loan, DailyToken } from '../generated/schema';
+import { User, Transaction, Daily, All, Loan, DailyLLC } from '../generated/schema';
 import { BigInt, BigDecimal, ethereum, Address } from '@graphprotocol/graph-ts';
 import { ZERO_BI, ZERO_BD } from './helpers';
 
@@ -20,14 +20,14 @@ export function getDaily(event: ethereum.Event): Daily {
     daily.burnUnboundToken = ZERO_BD;
     daily.lockPoolToken = ZERO_BD;
     daily.unlockPoolToken = ZERO_BD;
-    daily.lockUSD = ZERO_BD;
-    daily.unlockUSD = ZERO_BD;
+    // daily.lockUSD = ZERO_BD;
+    // daily.unlockUSD = ZERO_BD;
   }
 
   return daily as Daily;
 }
 
-export function getDailyToken(event: ethereum.Event, uTokenAddress: string): DailyToken {
+export function getDailyLLC(event: ethereum.Event, uTokenAddress: string): DailyLLC {
   // Time
   let timestamp = event.block.timestamp.toI32();
   let difference = 330 * 60; // IST(+5:30)
@@ -36,9 +36,9 @@ export function getDailyToken(event: ethereum.Event, uTokenAddress: string): Dai
   let dayStartTimestamp = dayID * 86400;
   let tokenDayID: string = uTokenAddress.concat('-').concat(dayID.toString());
 
-  let daily = DailyToken.load(tokenDayID);
+  let daily = DailyLLC.load(tokenDayID);
   if (daily == null) {
-    daily = new DailyToken(tokenDayID);
+    daily = new DailyLLC(tokenDayID);
     daily.date = dayStartTimestamp;
     daily.uTokenAddress = uTokenAddress;
     daily.mintCount = ZERO_BI;
@@ -47,11 +47,11 @@ export function getDailyToken(event: ethereum.Event, uTokenAddress: string): Dai
     daily.burnUnboundToken = ZERO_BD;
     daily.lockPoolToken = ZERO_BD;
     daily.unlockPoolToken = ZERO_BD;
-    daily.lockUSD = ZERO_BD;
-    daily.unlockUSD = ZERO_BD;
+    // daily.lockUSD = ZERO_BD;
+    // daily.unlockUSD = ZERO_BD;
   }
 
-  return daily as DailyToken;
+  return daily as DailyLLC;
 }
 
 export function getAll(event: ethereum.Event): All {
@@ -64,8 +64,8 @@ export function getAll(event: ethereum.Event): All {
     all.burnUnboundToken = ZERO_BD;
     all.lockPoolToken = ZERO_BD;
     all.unlockPoolToken = ZERO_BD;
-    all.lockUSD = ZERO_BD;
-    all.unlockUSD = ZERO_BD;
+    // all.lockUSD = ZERO_BD;
+    // all.unlockUSD = ZERO_BD;
   }
 
   return all as All;

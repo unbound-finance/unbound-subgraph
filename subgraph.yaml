@@ -36,10 +36,10 @@ dataSources:
           handler: handleTransfer
       file: ./src/und.ts
   - kind: ethereum/contract
-    name: LLC
+    name: DAI_USDT_LLC
     network: kovan
     source:
-      address: '0x7A95c0193f2D77A2DD5b01A1069CE3Eb59E77017'
+      address: '0x58878458e719ECcdF4BBD02E4598986F34e914B8'
       abi: LLC
       startBlock: 21863181
     mapping:
@@ -68,12 +68,12 @@ dataSources:
           handler: handleUnlockLPT
       file: ./src/llc.ts
   - kind: ethereum/contract
-    name: LLC_DaiUsdt
+    name: DAI_USDC_LLC
     network: kovan
     source:
-      address: '0x19571F3fb4E732950d1d6c7048dF55F00cf4439F'
+      address: '0x59BF72062E2A23e85DaA910c9d952223Eff810A9'
       abi: LLC
-      startBlock: 21863156
+      startBlock: 21863181
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -99,6 +99,138 @@ dataSources:
         - event: UnlockLPT(uint256,indexed address,indexed address)
           handler: handleUnlockLPT
       file: ./src/llc.ts
+  - kind: ethereum/contract
+    name: USDC_USDT_LLC
+    network: kovan
+    source:
+      address: '0xd03E3CD62Bf133121A4D6469385119aEACB0631D'
+      abi: LLC
+      startBlock: 21863181
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        # - LockLPT
+        # - UnlockLPT
+        - DailyToken
+        - Daily
+        - All
+      abis:
+        - name: LLC
+          file: ./abis/LLC.json
+        - name: Pair
+          file: ./abis/pair.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+      eventHandlers:
+        - event: KillSwitch(bool)
+          handler: handleKillSwitch
+        - event: LockLPT(uint256,indexed address,indexed address)
+          handler: handleLockLPT
+        - event: UnlockLPT(uint256,indexed address,indexed address)
+          handler: handleUnlockLPT
+      file: ./src/llc.ts
+  - kind: ethereum/contract
+    name: ETH_DAI_LLC
+    network: kovan
+    source:
+      address: '0x54870f44414e69af7eb2f3e1e144ebb7c79325b7'
+      abi: LLC
+      startBlock: 21863181
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        # - LockLPT
+        # - UnlockLPT
+        - DailyToken
+        - Daily
+        - All
+      abis:
+        - name: LLC
+          file: ./abis/LLC.json
+        - name: Pair
+          file: ./abis/pair.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+      eventHandlers:
+        - event: KillSwitch(bool)
+          handler: handleKillSwitch
+        - event: LockLPT(uint256,indexed address,indexed address)
+          handler: handleLockLPT
+        - event: UnlockLPT(uint256,indexed address,indexed address)
+          handler: handleUnlockLPT
+      file: ./src/llc.ts
+  - kind: ethereum/contract
+    name: ETH_USDT_LLC
+    network: kovan
+    source:
+      address: '0xa613DC9eBCf5B96E797e9e0D2E7e940b0DA44967'
+      abi: LLC
+      startBlock: 21863181
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        # - LockLPT
+        # - UnlockLPT
+        - DailyToken
+        - Daily
+        - All
+      abis:
+        - name: LLC
+          file: ./abis/LLC.json
+        - name: Pair
+          file: ./abis/pair.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+      eventHandlers:
+        - event: KillSwitch(bool)
+          handler: handleKillSwitch
+        - event: LockLPT(uint256,indexed address,indexed address)
+          handler: handleLockLPT
+        - event: UnlockLPT(uint256,indexed address,indexed address)
+          handler: handleUnlockLPT
+      file: ./src/llc.ts
+  - kind: ethereum/contract
+    name: ETH_USDC_LLC
+    network: kovan
+    source:
+      address: '0x0fC85f81D826F35E68c05C9dcd97Cd55B5789F11'
+      abi: LLC
+      startBlock: 21863181
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        # - LockLPT
+        # - UnlockLPT
+        - DailyToken
+        - Daily
+        - All
+      abis:
+        - name: LLC
+          file: ./abis/LLC.json
+        - name: Pair
+          file: ./abis/pair.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+      eventHandlers:
+        - event: KillSwitch(bool)
+          handler: handleKillSwitch
+        - event: LockLPT(uint256,indexed address,indexed address)
+          handler: handleLockLPT
+        - event: UnlockLPT(uint256,indexed address,indexed address)
+          handler: handleUnlockLPT
+      file: ./src/llc.ts
+
+
+
+
 # templates:
 #   - kind: ethereum/contract
 #     name: Pair

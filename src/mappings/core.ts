@@ -2,6 +2,7 @@ import { Burn, Factory, Mint, Vault } from "../../generated/schema";
 import { Lock as LockEvent, Unlock as UnlockEvent } from "../../generated/templates/Vault/Vault";
 import { FACTORY_ADDRESS, ONE_BI } from "../utils/constants";
 import { loadTransaction } from "../utils";
+import { updateVaultDayData } from "../utils/intervalUpdates";
 
 export function handleLock(event: LockEvent): void {
   let vault = Vault.load(event.address.toHexString());
@@ -23,7 +24,7 @@ export function handleLock(event: LockEvent): void {
   mint.sender = event.transaction.from;
   mint.amount = event.params._uTokenAmount;
 
-  // TODO: update interval data
+  updateVaultDayData(event);
 
   mint.save();
   vault.save();
@@ -49,7 +50,7 @@ export function handleUnlock(event: UnlockEvent): void {
   burn.sender = event.transaction.from;
   burn.amount = event.params._uTokenAmount;
 
-  // TODO: update interval data
+  updateVaultDayData(event);
 
   burn.save();
   vault.save();

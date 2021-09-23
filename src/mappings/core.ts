@@ -1,5 +1,11 @@
 import { Burn, Factory, Mint, Vault } from "../../generated/schema";
-import { Lock as LockEvent, Unlock as UnlockEvent } from "../../generated/templates/Vault/Vault";
+import {
+  Lock as LockEvent,
+  Unlock as UnlockEvent,
+  ChangeLTV as ChangeLTVEvent,
+  ChangeCR as ChangeCREvent,
+  ChangeProtocolFee as ChangeProtocolFeeEvent,
+} from "../../generated/templates/Vault/Vault";
 import { FACTORY_ADDRESS, ONE_BI } from "../utils/constants";
 import { loadTransaction } from "../utils";
 import { updateVaultDayData } from "../utils/intervalUpdates";
@@ -55,4 +61,25 @@ export function handleUnlock(event: UnlockEvent): void {
   burn.save();
   vault.save();
   factory.save();
+}
+
+export function handleLTV(event: ChangeLTVEvent): void {
+  let vault = new Vault(event.address.toHexString());
+  vault.LTV = event.params._LTV;
+
+  vault.save();
+}
+
+export function handleCR(event: ChangeCREvent): void {
+  let vault = new Vault(event.address.toHexString());
+  vault.cr = event.params._CR;
+
+  vault.save();
+}
+
+export function handleProtocolFee(event: ChangeProtocolFeeEvent): void {
+  let vault = new Vault(event.address.toHexString());
+  vault.fee = event.params._PROTOCOL_FEE;
+
+  vault.save();
 }

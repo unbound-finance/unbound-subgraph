@@ -18,13 +18,20 @@ dataSources:
       file: Factory/Factory.wasm
       entities:
         - Vault
+        - Pool
       abis:
         - name: Factory
           file: Factory/abis/Factory.json
         - name: ERC20
           file: Factory/abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: Factory/abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: Factory/abis/ERC20NameBytes.json
         - name: Vault
           file: Factory/abis/Vault.json
+        - name: Pool
+          file: Factory/abis/Pool.json
       eventHandlers:
         - event: NewVault(address,uint256)
           handler: handleVaultCreated
@@ -41,6 +48,7 @@ templates:
       file: templates/Vault/Vault.wasm
       entities:
         - Vault
+        - Pool
       abis:
         - name: Factory
           file: Vault/abis/Factory.json
@@ -48,8 +56,16 @@ templates:
           file: Vault/abis/ERC20.json
         - name: Vault
           file: Vault/abis/Vault.json
+        - name: Pool
+          file: Vault/abis/Pool.json
       eventHandlers:
         - event: Lock(address,uint256,uint256)
           handler: handleLock
         - event: Unlock(address,uint256,uint256)
           handler: handleUnlock
+        - event: ChangeCR(uint256)
+          handler: handleCR
+        - event: ChangeLTV(uint256)
+          handler: handleLTV
+        - event: ChangeProtocolFee(uint256)
+          handler: handleProtocolFee

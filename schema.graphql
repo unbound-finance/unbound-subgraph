@@ -12,7 +12,9 @@ type Vault @entity {
   txCount: BigInt!
   # tvl
   tvl: BigInt!
-  # all time volume
+  # all time volumes
+  mintVolume: BigInt!
+  burnVolume: BigInt!
   volume: BigInt!
   # collatralization ratio
   cr: BigInt!

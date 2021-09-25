@@ -19,7 +19,8 @@ export function handleLock(event: LockEvent): void {
 
   // vault data
   vault.tvl = vault.tvl.plus(event.params._collateral);
-  vault.volume = vault.tvl.plus(event.params._collateral);
+  vault.mintVolume = vault.mintVolume.plus(event.params._collateral);
+  vault.volume = vault.volume.plus(event.params._collateral);
   vault.txCount = vault.txCount.plus(ONE_BI);
 
   let transaction = loadTransaction(event);
@@ -46,6 +47,8 @@ export function handleUnlock(event: UnlockEvent): void {
 
   // vault data
   vault.tvl = vault.tvl.minus(event.params._collateral);
+  vault.burnVolume = vault.burnVolume.plus(event.params._collateral);
+  vault.volume = vault.volume.plus(event.params._collateral);
   vault.txCount = vault.txCount.plus(ONE_BI);
 
   let transaction = loadTransaction(event);

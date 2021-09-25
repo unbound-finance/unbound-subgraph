@@ -109,6 +109,24 @@ export class Vault extends Entity {
     this.set("tvl", Value.fromBigInt(value));
   }
 
+  get mintVolume(): BigInt {
+    let value = this.get("mintVolume");
+    return value.toBigInt();
+  }
+
+  set mintVolume(value: BigInt) {
+    this.set("mintVolume", Value.fromBigInt(value));
+  }
+
+  get burnVolume(): BigInt {
+    let value = this.get("burnVolume");
+    return value.toBigInt();
+  }
+
+  set burnVolume(value: BigInt) {
+    this.set("burnVolume", Value.fromBigInt(value));
+  }
+
   get volume(): BigInt {
     let value = this.get("volume");
     return value.toBigInt();

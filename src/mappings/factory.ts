@@ -22,6 +22,8 @@ export function handleVaultCreated(event: VaultCreated): void {
   let vaultContract = VaultABI.bind(event.params._vault);
 
   vault.tvl = ZERO_BI;
+  vault.mintVolume = ZERO_BI;
+  vault.burnVolume = ZERO_BI;
   vault.volume = ZERO_BI;
   vault.txCount = ZERO_BI;
   vault.LTV = vaultContract.LTV();
